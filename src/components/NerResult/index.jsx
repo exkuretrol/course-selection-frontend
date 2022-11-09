@@ -54,7 +54,7 @@ const NerTag = ({ name, tag }) => {
         "CLASS": "emerald",
     }
     const color = tags[tag];
-    const classA = `bg-${color}-100 text-${color}-800 rounded px-1 py-0.5`;
+    const classA = `bg-${color}-100 text-${color}-800 rounded px-1 py-0.5 mx-1`;
     const classB = `text-xs select-none bg-${color}-500 text-${color}-100 rounded font-semibold px-0.5 ml-1`;
     return (
         <>
