@@ -3,14 +3,17 @@
 UI:
 - [x] 搜尋結果 table
 - [x] 提示
+- [ ] 選課階段
+- [ ] pager
+- [ ] 依精確度排序
 
 backend:
-- [ ] 搜尋結果函式化
-- [ ] 連結 python
+- [x] 搜尋結果函式化
+- [x] 連結 python
 - [ ] cors credentials
 
 bug:
-- [ ] 空字串
+- [ ] 空字串 raise 錯誤
 - [ ] 暖機
 
 sql:
