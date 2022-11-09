@@ -17,6 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
+Main.java
 
 npm-debug.log*
 yarn-debug.log*
@@ -24,3 +25,4 @@ yarn-error.log*
 .env
 service_account.json
 .vscode/settings.json
+
