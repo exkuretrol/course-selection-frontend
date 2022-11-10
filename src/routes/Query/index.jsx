@@ -122,7 +122,7 @@ const RecordBtn = () => {
         //     .then(res => res.json())
         //     .then(data => {
         //         // setSentence(JSON.parse(data).text)
-        setSentence("資工系星期三早上的選修");
+        setSentence("資工系星期四下午的必修");
         sendToNER(sentence);
         // })
         // .catch(e => console.log(e));

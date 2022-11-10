@@ -25,4 +25,5 @@ yarn-error.log*
 .env
 service_account.json
 .vscode/settings.json
+todo.md
 
