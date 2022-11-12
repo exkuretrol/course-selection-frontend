@@ -26,4 +26,8 @@
     table.query-result-table th {
         @apply py-3 px-6
     }
+
+    .blue-button {
+        @apply px-4 py-2 rounded-full bg-sky-200 text-sky-500 leading-5 tracking-wider hover:bg-sky-300 hover:text-sky-600 transition-all duration-150 ease-in-out hover:scale-125;
+    }
 }

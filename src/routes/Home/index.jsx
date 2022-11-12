@@ -14,7 +14,7 @@ function Home() {
                     <div />
                 </div>
                 <div className="flex justify-center mb-8">
-                    <a className="px-4 py-2 rounded-full bg-sky-200 text-sky-500 leading-5 tracking-wider hover:bg-sky-300 hover:text-sky-600 transition-all duration-150 ease-in-out hover:scale-125" href="/query">開始選課</a>
+                    <a className="blue-button" href="/query">開始選課</a>
                 </div>
                 <div className="text-gray-900 text-lg leading-8">
                     <ul className="list-inside list-disc marker:text-sky-300">

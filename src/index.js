@@ -8,6 +8,7 @@ import About from './routes/About';
 import Import from './routes/Import';
 import Query from './routes/Query';
 import Records from './routes/Records';
+import Export from './routes/Export';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
           <Route path='' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/import' element={<Import />} />
+          <Route path='/export' element={<Export />} />
           <Route path='/query' element={<Query />} />
           <Route path='/records' element={<Records />} />
         </Route>

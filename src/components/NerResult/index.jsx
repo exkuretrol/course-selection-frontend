@@ -1,6 +1,6 @@
-const NerResult = ({ sentence, result}) => {
+const NerResult = ({ sentence, result }) => {
     const tags = result;
-    if (tags === undefined) return;
+    if (tags === null) return;
     const sen = sentence;
     const sen_arr = Array.from(sen);
 
@@ -24,9 +24,9 @@ const NerResult = ({ sentence, result}) => {
         if (el === undefined) return;
         if (el) {
             counter = counter + 1;
-            return <NerTag name={tags[counter].word} tag={tags[counter].tag} />;
+            return <NerTag key={i} name={tags[counter].word} tag={tags[counter].tag} />;
         }
-        else return <>{sen_arr[i]}</>
+        else return <span key={i}>{sen_arr[i]}</span>
     })
 
     return (
