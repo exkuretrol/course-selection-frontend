@@ -1,4 +1,13 @@
-const QueryResult = ({ columns, data, course, setCourse }) => {
+import React from "react";
+type Props = {
+    columns: string[];
+    data: [(number | string)[]];
+    index: number[];
+    course: Set<number>;
+    setCourse: React.Dispatch<React.SetStateAction<Set<number>>>;
+};
+
+const QueryResult = ({ columns, data, course, setCourse }: Props) => {
     if (Object.is(data, undefined)) {
         return (
             <>
@@ -13,8 +22,11 @@ const QueryResult = ({ columns, data, course, setCourse }) => {
         );
     }
 
-    const TableHeader = (columns) => {
-        const ths = columns.map((col, i) => <th key={i}>{col}</th>);
+    const TableHeader = (columns: string[]) => {
+        const ths = columns.map((col, i) => {
+            if (i === 0) return;
+            return <th key={i}>{col}</th>;
+        });
         return (
             <thead>
                 <tr>{ths}</tr>
@@ -22,17 +34,18 @@ const QueryResult = ({ columns, data, course, setCourse }) => {
         );
     };
 
-    const TableBody = (rows) => {
-        const trs = rows.map((row, i) => {
+    const TableBody = (rows: (string | number)[][]) => {
+        const trs = rows.map((row: (string | number)[], i: number) => {
             const tds = row.map((td, ii) => {
+                // don't show the id of row
+                if (ii === 0) return;
                 return <td key={ii}>{td}</td>;
             });
             return (
                 <tr
                     key={i}
                     onClick={() => {
-                        setCourse(new Set([...course, data[i][0]]));
-                        // this.setState({active: !this.state.active})
+                        setCourse(new Set([...course, row[0] as number]));
                     }}
                 >
                     {tds}
@@ -44,7 +57,7 @@ const QueryResult = ({ columns, data, course, setCourse }) => {
 
     const Table = () => {
         const picked_columns = [
-            // 'No.',
+            "No.",
             "科目名稱",
             "科目代號",
             // '班級名稱',
@@ -59,6 +72,7 @@ const QueryResult = ({ columns, data, course, setCourse }) => {
 
         const picked_index = picked_columns.map((col) => columns.indexOf(col));
         const picked_table = data.map((row) => picked_index.map((i) => row[i]));
+        console.log(picked_table);
 
         return (
             <table className="query-result-table mx-16 overflow-x-auto">

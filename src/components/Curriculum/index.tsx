@@ -1,3 +1,5 @@
+import React from "react";
+
 const Cirrculum = () => {
     return (
         <div className="prose">

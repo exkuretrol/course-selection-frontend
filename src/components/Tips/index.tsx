@@ -1,3 +1,5 @@
+import React from "react";
+
 const Tips = () => {
     const tips = [
         "若要查詢老師的課表，只需說出「某某 (教授/老師)的課表」即可。",
@@ -7,10 +9,19 @@ const Tips = () => {
         "畢業班的課程",
         "一句話中所提到的課程和老師的次數都只能一次。",
     ];
-    return <>{tips.map((tip, i) => Tip(tip, i))}</>;
+    return (
+    <>
+        {tips.map((tip, i) => Tip({tip, i}))}
+    </>
+    );
 };
 
-const Tip = (tip, i) => {
+type Props = {
+    tip: string,
+    i: number
+}
+
+const Tip = ({tip, i}: Props) => {
     return (
         <div className="relative w-full h-full">
             <div className="static text-slate-900/50 " key={i}>

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState } from "react";
 import NerResult from "../../components/NerResult";
 import QueryResult from "../../components/QueryResult";
 import ReactSwitch from "react-switch";
@@ -6,19 +6,24 @@ import RecordBtn from "../../components/Recorder";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const NerContext = createContext(null);
+type NerResultType = [{ word: string; tag: string; idx: number[] }];
+type JsonTableType = {
+    columns: string[],
+    data: [(string | number)[]],
+    index: number[],
+};
 
 const Query = () => {
-    const [checked, setCheck] = useState(true);
-    const [nerData, setNerData] = useState(null);
-    const [sentence, setSentence] = useState("");
-    const [jsonTable, setJsonTable] = useState({
+    const [checked, setCheck] = useState<boolean>(true);
+    const [nerData, setNerData] = useState<NerResultType | null>(null);
+    const [sentence, setSentence] = useState<string>("");
+    const [jsonTable, setJsonTable] = useState<JsonTableType>({
         columns: [],
-        data: [],
+        data: [[]],
         index: [],
     });
-    const [course, setCourse] = useState([]);
-    const [step, setStep] = useState(1);
+    const [course, setCourse] = useState<Set<number>>(new Set());
+    const [step, setStep] = useState<number>(1);
     // TODO: 判斷有無麥克風權限，沒有 = 0
     // 0: 初始化
     // 1: 開始選課
@@ -53,66 +58,52 @@ const Query = () => {
                 checked={checked}
                 onChange={() => setCheck(!checked)}
             />
-            <NerContext.Provider
-                value={[
-                    nerData,
-                    setNerData,
-                    sentence,
-                    setSentence,
-                    jsonTable,
-                    setJsonTable,
-                ]}
-            >
-                <div className="mt-16 grid grid-rows-2 grid-cols-3 place-items-center p-4 sm:p-6 md:p-8">
-                    {/* <div className="relative w-full h-full">
+            <div className="mt-16 grid grid-rows-2 grid-cols-3 place-items-center p-4 sm:p-6 md:p-8">
+                {/* <div className="relative w-full h-full">
                         <div className="static text-slate-900/50 ">
                             <div className="absolute bottom-20 left-24 p-2 bg-white shadow-md rounded text-gray-500 ring-1 ring-gray-300/30">{tips[1]}</div>
                         </div>
                     </div> */}
-                    <div></div>
-                    {/* <div></div>
+                <div></div>
+                {/* <div></div>
                     <div className="relative w-full h-full">
                         <div className="static text-slate-900/50 ">
                             <div className="absolute w-60 bottom-12 left-5 p-2 bg-white shadow-md rounded text-gray-500 ring-1 ring-gray-300/30">{tips[0]}</div>
                         </div>
                     </div> */}
-                    <RecordBtn
-                        nerData={nerData}
-                        setNerData={setNerData}
-                        sentence={sentence}
-                        setSentence={setSentence}
-                        jsonTable={jsonTable}
-                        setJsonTable={setJsonTable}
-                    />
-                    <div></div>
-                    <div></div>
-                    <div className="relative w-96 h-full">
-                        <div className="text-slate-700 text-xl tracking-wider leading-8 bg-gray-50 mt-16 px-8 py-4 rounded-full ring-1 ring-slate-500/10">
-                            {checked ? (
-                                <NerResult
-                                    sentence={sentence}
-                                    result={nerData}
-                                />
-                            ) : (
-                                sentence
-                            )}
-                        </div>
-                    </div>
-                    <div>
-                        {course.length === 0 ? (
-                            <></>
-                        ) : (
-                            <button
-                                className="blue-button"
-                                onClick={() => {
-                                    toExport();
-                                }}
-                            >
-                                送出
-                            </button>
+                <RecordBtn
+                    setNerData={setNerData}
+                    setSentence={setSentence}
+                    setJsonTable={setJsonTable}
+                />
+                <div></div>
+                <div></div>
+                <div className="relative w-96 h-full">
+                    <div className="text-slate-700 text-xl tracking-wider leading-8 bg-gray-50 mt-16 px-8 py-4 rounded-full ring-1 ring-slate-500/10">
+                        {checked && (nerData !== null) ? 
+                        (
+                            <NerResult sentence={sentence} result={nerData} />
+                        )
+                         : (
+                            sentence
                         )}
                     </div>
-                    {/* <div className="relative w-full h-full">
+                </div>
+                <div>
+                    {Array.from(course).length === 0 ? (
+                        <></>
+                    ) : (
+                        <button
+                            className="blue-button"
+                            onClick={() => {
+                                toExport();
+                            }}
+                        >
+                            送出
+                        </button>
+                    )}
+                </div>
+                {/* <div className="relative w-full h-full">
                         <div className="static text-slate-900/50 ">
                             <div className="absolute bottom-36 right-16 p-2 bg-white shadow-md rounded text-gray-500 ring-1 ring-gray-300/30">{tips[2]}</div>
                         </div>
@@ -133,16 +124,15 @@ const Query = () => {
                         </div>
                     </div> */}
 
-                    {/* <Tips /> */}
-                </div>
-                <div className="flex flex-col">
-                    <QueryResult
-                        {...jsonTable}
-                        course={course}
-                        setCourse={setCourse}
-                    />
-                </div>
-            </NerContext.Provider>
+                {/* <Tips /> */}
+            </div>
+            <div className="flex flex-col">
+                <QueryResult
+                    {...jsonTable}
+                    course={course}
+                    setCourse={setCourse}
+                />
+            </div>
         </>
     );
 };

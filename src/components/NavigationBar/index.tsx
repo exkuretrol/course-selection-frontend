@@ -1,3 +1,5 @@
+import React from "react";
+
 import { BsLayoutTextWindowReverse } from "react-icons/bs";
 
 const NavigationBar = () => {
@@ -29,14 +31,19 @@ const NavigationBar = () => {
     );
 };
 
-const NavItem = (props) => {
+type Props = {
+    href: string,
+    name: string
+}
+
+const NavItem = ({ href, name }: Props) => {
     return (
         <li>
             <a
-                href={props.href}
+                href={href}
                 className="rounded-full px-2 py-1 hover:bg-sky-100 hover:text-sky-600"
             >
-                {props.name}
+                {name}
             </a>
         </li>
     );

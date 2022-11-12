@@ -5,12 +5,12 @@ import App from "./App";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
 import About from "./routes/About";
-import Import from "./routes/Import";
 import Query from "./routes/Query";
 import Records from "./routes/Records";
 import Export from "./routes/Export";
+import Import from "./routes/Import";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(
     <React.StrictMode>
         <BrowserRouter>

@@ -1,3 +1,6 @@
+import React from "react";
+import { ChangeEvent, useState, useRef } from "react";
+
 const Import = () => {
     return (
         <>
@@ -19,5 +22,10 @@ const Import = () => {
         </>
     );
 };
+
+const FileInput = () => {
+    const [file, setFile] = useState<File>();
+    const inputRef = useRef<HTMLInputElement | null>(null);
+}
 
 export default Import;

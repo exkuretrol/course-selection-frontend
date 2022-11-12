@@ -1,11 +1,17 @@
+import React from "react";
 import { useLocation } from "react-router-dom";
 import Cirrculum from "../../components/Curriculum";
+
+interface LocationStateProps {
+    course:  Set<number>
+}
 
 const Export = () => {
     // const [jsonTable, setJsonTable] = useState([]);
     const location = useLocation();
-    const course_list = Array.from(location.state.course);
-
+    const myState: LocationStateProps = location.state! as LocationStateProps;
+    const course_list = Array.from(myState.course);
+// 
     // useEffect(() => {
     //     console.log(jsonTable);
     // }, [jsonTable])
@@ -13,12 +19,15 @@ const Export = () => {
     return (
         <>
             <Cirrculum />
-            {/* <FetchInfomation courses={course_list} /> */}
+            <FetchInfomation courses={course_list} />
         </>
     );
 };
 
-const FetchInfomation = ({ courses }) => {
+type Props = {
+    courses: number[]
+}
+const FetchInfomation = ({ courses }: Props) => {
     const getTable = async () => {
         await fetch("http://localhost:5000/api/query", {
             method: "POST",

@@ -1,13 +1,25 @@
+import React from "react";
 import { FaMicrophone } from "react-icons/fa";
 import { useReactMediaRecorder } from "react-media-recorder";
+
+type NerResultType = [{ word: string; tag: string; idx: number[] }];
+type JsonTableType = {
+    columns: string[],
+    data: [(string | number)[]],
+    index: number[],
+};
+
+type Props = {
+    setNerData: React.Dispatch<React.SetStateAction<NerResultType | null>>,
+    setSentence: React.Dispatch<React.SetStateAction<string>>,
+    setJsonTable: React.Dispatch<React.SetStateAction<JsonTableType>>
+}
+
 const RecordBtn = ({
-    nerData,
     setNerData,
-    sentence,
     setSentence,
-    jsonTable,
-    setJsonTable,
-}) => {
+    setJsonTable
+}: Props) => {
     const { status, startRecording, stopRecording } =
         useReactMediaRecorder({
             audio: true,
@@ -15,8 +27,8 @@ const RecordBtn = ({
             askPermissionOnMount: true,
         });
 
-    const uploadSoundData = async (blob) => {
-        const formData = new FormData();
+    const uploadSoundData = async (blob: Blob) => {
+        const formData = new FormData()
         formData.append("audio_data", blob, new Date().getTime() + ".ogg");
 
         // await fetch('http://localhost:4000/api/recognize', {
@@ -49,7 +61,8 @@ const RecordBtn = ({
         NER(text1);
     };
 
-    const NER = async (text) => {
+
+    const NER = async (text: string) => {
         await fetch("http://localhost:5000/api/ner", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
