@@ -8,7 +8,7 @@ const RecordBtn = ({
     jsonTable,
     setJsonTable,
 }) => {
-    const { status, startRecording, stopRecording, mediaBlobUrl } =
+    const { status, startRecording, stopRecording } =
         useReactMediaRecorder({
             audio: true,
             onStop: (blobUrl, blob) => uploadSoundData(blob),

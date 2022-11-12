@@ -13,11 +13,11 @@ const Query = () => {
     const [nerData, setNerData] = useState(null);
     const [sentence, setSentence] = useState("");
     const [jsonTable, setJsonTable] = useState({
-        columns: Array(),
-        data: Array(),
-        index: Array(),
+        columns: [],
+        data: [],
+        index: [],
     });
-    const [course, setCourse] = useState(Array());
+    const [course, setCourse] = useState([]);
     const [step, setStep] = useState(1);
     // TODO: 判斷有無麥克風權限，沒有 = 0
     // 0: 初始化

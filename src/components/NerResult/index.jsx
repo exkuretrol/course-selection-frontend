@@ -4,7 +4,7 @@ const NerResult = ({ sentence, result }) => {
     const sen = sentence;
     const sen_arr = Array.from(sen);
 
-    let new_arr = Array();
+    let new_arr = [];
 
     for (let i = 0; i < tags.length; i++) {
         let idx = tags[i].idx;
@@ -19,8 +19,8 @@ const NerResult = ({ sentence, result }) => {
     }
 
     let counter = -1;
+    new_arr = new_arr.filter((el) => el !== undefined)
     let tags_result = new_arr.map((el, i) => {
-        if (el === undefined) return;
         if (el) {
             counter = counter + 1;
             return (
