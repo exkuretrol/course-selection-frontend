@@ -4,7 +4,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography')
+  ],
   safelist: [
     { pattern: /bg-\w+-[1-9]00/, },
     { pattern: /text-\w+-[1-9]00/, },
