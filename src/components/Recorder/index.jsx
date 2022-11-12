@@ -1,11 +1,19 @@
 import { FaMicrophone } from "react-icons/fa";
 import { useReactMediaRecorder } from "react-media-recorder";
-const RecordBtn = ({ nerData, setNerData, sentence, setSentence, jsonTable, setJsonTable }) => {
-    const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({
-        audio: true,
-        onStop: (blobUrl, blob) => uploadSoundData(blob),
-        askPermissionOnMount: true
-    });
+const RecordBtn = ({
+    nerData,
+    setNerData,
+    sentence,
+    setSentence,
+    jsonTable,
+    setJsonTable,
+}) => {
+    const { status, startRecording, stopRecording, mediaBlobUrl } =
+        useReactMediaRecorder({
+            audio: true,
+            onStop: (blobUrl, blob) => uploadSoundData(blob),
+            askPermissionOnMount: true,
+        });
 
     const uploadSoundData = async (blob) => {
         const formData = new FormData();
@@ -36,21 +44,21 @@ const RecordBtn = ({ nerData, setNerData, sentence, setSentence, jsonTable, setJ
         //     .catch(e => console.log(e));
         // const sen = "資工系禮拜一的選修課";
         const sen = "資工系李玉璽老師的選修課";
-        const text1 = JSON.stringify({ "multiple": false, "text": sen})
-        setSentence(sen)
-        NER(text1)
-    }
+        const text1 = JSON.stringify({ multiple: false, text: sen });
+        setSentence(sen);
+        NER(text1);
+    };
 
     const NER = async (text) => {
-        await fetch('http://localhost:5000/api/ner', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: text
-        }) 
+        await fetch("http://localhost:5000/api/ner", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: text,
+        })
             .then((res) => res.json())
             .then((data2) => {
-                const ner_result = data2['result'][0];
-                const query_json_table = JSON.parse(data2['tbl'] || null)
+                const ner_result = data2["result"][0];
+                const query_json_table = JSON.parse(data2["tbl"] || null);
 
                 setNerData(ner_result);
                 setJsonTable(query_json_table);
@@ -58,9 +66,9 @@ const RecordBtn = ({ nerData, setNerData, sentence, setSentence, jsonTable, setJ
                 console.log(query_json_table);
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error("Error:", error);
             });
-    }
+    };
 
     return (
         <>
@@ -72,12 +80,13 @@ const RecordBtn = ({ nerData, setNerData, sentence, setSentence, jsonTable, setJ
                     onMouseDown={startRecording}
                     onMouseUp={stopRecording}
                     onMouseOut={stopRecording}
-                    className="group bg-sky-300 p-4 sm:p-6 md:p-8 rounded-full hover:bg-sky-400 hover:ring-offset-8 hover:ring-2 hover:ring-sky-300/40">
+                    className="group bg-sky-300 p-4 sm:p-6 md:p-8 rounded-full hover:bg-sky-400 hover:ring-offset-8 hover:ring-2 hover:ring-sky-300/40"
+                >
                     <FaMicrophone className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 fill-sky-900 group-hover:fill-white" />
                 </button>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default RecordBtn
+export default RecordBtn;

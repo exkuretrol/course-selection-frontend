@@ -4,7 +4,7 @@
 
 @layer components {
     table.query-result-table {
-        @apply table-auto ;
+        @apply table-auto;
     }
 
     table.query-result-table thead {
@@ -24,7 +24,7 @@
     }
 
     table.query-result-table th {
-        @apply py-3 px-6
+        @apply py-3 px-6;
     }
 
     .blue-button {

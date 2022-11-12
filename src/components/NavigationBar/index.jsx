@@ -1,4 +1,4 @@
-import { BsLayoutTextWindowReverse } from 'react-icons/bs'
+import { BsLayoutTextWindowReverse } from "react-icons/bs";
 
 const NavigationBar = () => {
     // TODO: mx responsive design
@@ -26,17 +26,20 @@ const NavigationBar = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 const NavItem = (props) => {
     return (
         <li>
-            <a href={props.href} className="rounded-full px-2 py-1 hover:bg-sky-100 hover:text-sky-600">
+            <a
+                href={props.href}
+                className="rounded-full px-2 py-1 hover:bg-sky-100 hover:text-sky-600"
+            >
                 {props.name}
             </a>
         </li>
-    )
-}
+    );
+};
 
 export default NavigationBar;
