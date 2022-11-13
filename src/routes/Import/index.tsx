@@ -1,7 +1,15 @@
 import React from "react";
-import { ChangeEvent, useState, useRef } from "react";
+import { ChangeEvent, useState } from "react";
+
+type TableType = {
+    columns: string[],
+    data: string[],
+    index: number[]
+}
 
 const Import = () => {
+    const [table, setTable] = useState<TableType | undefined>(undefined);
+
     return (
         <>
             <h1>Import</h1>
@@ -19,13 +27,71 @@ const Import = () => {
                 </li>
                 <li>第三步: 前往選課。</li>
             </ul>
+            <FileInput setTable={setTable}/>
         </>
     );
 };
 
-const FileInput = () => {
-    const [file, setFile] = useState<File>();
-    const inputRef = useRef<HTMLInputElement | null>(null);
+type Props = {
+    setTable: React.Dispatch<React.SetStateAction<TableType | undefined>>
 }
+const FileInput = ({setTable}: Props) => {
+
+    const [file, setFile] = useState<File | null>(null);
+    const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setFile(event.target.files?.item(0)!);
+        setIsFilePicked(true);
+    };
+
+    const handleSubmit = () => {
+        const formData = new FormData();
+        formData.append("File", file!);
+
+        fetch("http://localhost:5000/api/uploadcirriculum", {
+            method: "post",
+            body: formData,
+        })
+            .then((res) => {
+                if (res.ok) return res.json();
+                throw new Error("請上傳正確的格式");
+            })
+            .then((result) => {
+                const table = JSON.parse(result["tbl"]);
+                setTable(table);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    return (
+        <div>
+            <input type="file" name="file" id="" onChange={handleChange} />
+            {isFilePicked ? (
+                <>
+                    <ul>
+                        <li>{file?.name}</li>
+                        <li>{file?.size}</li>
+                        <li>{file?.lastModified}</li>
+                        <li>{file?.type}</li>
+                    </ul>
+                    <div>
+                        <button
+                            type="submit"
+                            className="blue-button"
+                            onClick={handleSubmit}
+                        >
+                            送出
+                        </button>
+                    </div>
+                </>
+            ) : (
+                <p>select a file</p>
+            )}
+        </div>
+    );
+};
 
 export default Import;

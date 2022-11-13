@@ -23,7 +23,7 @@ const Query = () => {
         index: [],
     });
     const [course, setCourse] = useState<Set<number>>(new Set());
-    const [step, setStep] = useState<number>(1);
+    // const [step, setStep] = useState<number>(1);
     // TODO: 判斷有無麥克風權限，沒有 = 0
     // 0: 初始化
     // 1: 開始選課
@@ -31,20 +31,20 @@ const Query = () => {
     //   - 添加條件: 語音可以添加艘群條件
     //   - 選擇課程: 使用滑鼠選擇課程
     // 3: 完成選課
-    const nextStep = () => setStep(step + 1);
-    const prevStep = () => setStep(step - 1);
+    // const nextStep = () => setStep(step + 1);
+    // const prevStep = ()=> setStep(step - 1);
 
-    // console.log(jsonTable);
-    const tips = [
-        "若要查詢老師的課表，只需說出「某某 (教授/老師)的課表」即可。",
-        "例如：我想找星期三下午桃園校區的選修課",
-        "某某老師的微積分。",
-        "尋找020304節資工系的必修",
-        "畢業班的課程",
-        "一句話中所提到的課程和老師的次數都只能一次。",
-    ];
+    // const tips = [
+    //     "若要查詢老師的課表，只需說出「某某 (教授/老師)的課表」即可。",
+    //     "例如：我想找星期三下午桃園校區的選修課",
+    //     "某某老師的微積分。",
+    //     "尋找020304節資工系的必修",
+    //     "畢業班的課程",
+    //     "一句話中所提到的課程和老師的次數都只能一次。",
+    //];
+
     useEffect(() => {
-        console.log(course);
+        console.log("加選的課程: ", course);
     }, [course]);
 
     const navigate = useNavigate();

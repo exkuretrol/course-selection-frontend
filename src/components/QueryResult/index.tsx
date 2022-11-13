@@ -23,8 +23,7 @@ const QueryResult = ({ columns, data, course, setCourse }: Props) => {
     }
 
     const TableHeader = (columns: string[]) => {
-        const ths = columns.map((col, i) => {
-            if (i === 0) return;
+        const ths = columns.filter((val, ind) => ind !== 0).map((col, i) => {
             return <th key={i}>{col}</th>;
         });
         return (
@@ -36,9 +35,9 @@ const QueryResult = ({ columns, data, course, setCourse }: Props) => {
 
     const TableBody = (rows: (string | number)[][]) => {
         const trs = rows.map((row: (string | number)[], i: number) => {
-            const tds = row.map((td, ii) => {
+
+            const tds = row.filter((col, ind) => ind !== 0).map((td, ii) => {
                 // don't show the id of row
-                if (ii === 0) return;
                 return <td key={ii}>{td}</td>;
             });
             return (
@@ -72,7 +71,6 @@ const QueryResult = ({ columns, data, course, setCourse }: Props) => {
 
         const picked_index = picked_columns.map((col) => columns.indexOf(col));
         const picked_table = data.map((row) => picked_index.map((i) => row[i]));
-        console.log(picked_table);
 
         return (
             <table className="query-result-table mx-16 overflow-x-auto">
