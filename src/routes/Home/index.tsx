@@ -18,7 +18,7 @@ function Home() {
                     <div />
                 </div>
                 <div className="flex justify-center mb-8">
-                    <a className="blue-button" href="/query">
+                    <a className="blue-button" href="/import">
                         開始選課
                     </a>
                 </div>

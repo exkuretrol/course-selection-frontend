@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+import Cirrculum from "../../components/Curriculum";
 
 type TableType = {
-    columns: string[],
-    data: string[],
-    index: number[]
-}
+    columns: string[];
+    data: string[][];
+    index: number[];
+};
 
 const Import = () => {
     const [table, setTable] = useState<TableType | undefined>(undefined);
+
+    const navigate = useNavigate();
+    const toQuery = () => {
+        navigate("/query", { state: table });
+    };
+
+    const toQueryWithoutCirriculum = () => {
+        navigate("/query");
+    };
+    const tooltips: JSX.Element[] | undefined = useMemo(() => {
+        return [];
+    }, []);
+
+    useEffect(() => {
+        ReactTooltip.rebuild()
+    }, [tooltips])
 
     return (
         <>
@@ -27,16 +46,31 @@ const Import = () => {
                 </li>
                 <li>第三步: 前往選課。</li>
             </ul>
-            <FileInput setTable={setTable}/>
+            <FileInput table={table} setTable={setTable} />
+            {table !== undefined ? (
+                <>
+                    <Cirrculum table={table.data} addTable={undefined} tooltips={tooltips}/>
+                    <button className="blue-button" onClick={toQuery}>
+                        下一步
+                    </button>
+                </>
+            ) : (
+                <button
+                    className="blue-button"
+                    onClick={toQueryWithoutCirriculum}
+                >
+                    略過此步驟
+                </button>
+            )}
         </>
     );
 };
 
 type Props = {
-    setTable: React.Dispatch<React.SetStateAction<TableType | undefined>>
-}
-const FileInput = ({setTable}: Props) => {
-
+    table: TableType | undefined;
+    setTable: React.Dispatch<React.SetStateAction<TableType | undefined>>;
+};
+const FileInput = ({ table, setTable }: Props) => {
     const [file, setFile] = useState<File | null>(null);
     const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
 
@@ -58,8 +92,8 @@ const FileInput = ({setTable}: Props) => {
                 throw new Error("請上傳正確的格式");
             })
             .then((result) => {
-                const table = JSON.parse(result["tbl"]);
-                setTable(table);
+                const tbl = result["tbl"];
+                setTable(tbl);
             })
             .catch((error) => {
                 console.error(error);
@@ -68,28 +102,33 @@ const FileInput = ({setTable}: Props) => {
 
     return (
         <div>
-            <input type="file" name="file" id="" onChange={handleChange} />
+            <input type="file" name="file" id="input_file" accept=".html, .htm" onChange={handleChange} />
             {isFilePicked ? (
                 <>
                     <ul>
                         <li>{file?.name}</li>
-                        <li>{file?.size}</li>
-                        <li>{file?.lastModified}</li>
-                        <li>{file?.type}</li>
                     </ul>
+                </>
+            ) : (
+                <>
+                    <p>請選擇一個包含課表的 html 檔案上傳</p>
+                </>
+            )}
+
+            {table === undefined ? (
+                <div>
                     <div>
                         <button
                             type="submit"
                             className="blue-button"
                             onClick={handleSubmit}
+                            disabled={!isFilePicked}
                         >
-                            送出
+                            上傳課表
                         </button>
                     </div>
-                </>
-            ) : (
-                <p>select a file</p>
-            )}
+                </div>
+            ) : null}
         </div>
     );
 };

@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import React from "react";
 type Props = {
     columns: string[];
@@ -8,6 +9,20 @@ type Props = {
 };
 
 const QueryResult = ({ columns, data, course, setCourse }: Props) => {
+    type URLProps = {
+        tcls: string,
+        tcour: string,
+        type: string
+    }
+    const URL = ({tcls, tcour, type}: URLProps) => {
+        return `https://tch.mcu.edu.tw/sylwebqry/pro10_22.aspx?tcls=${tcls}&tcour=${tcour}&tyear=111&tsem=1&type=${type === "必修" ? "1" : "1"}`;
+    }
+    // tcls: 班級
+    // tcour: 科目
+    // ----------
+    // tyear: 年度 
+    // tsem: 學期
+    // type: 選修必修?
     if (Object.is(data, undefined)) {
         return (
             <>
@@ -38,13 +53,25 @@ const QueryResult = ({ columns, data, course, setCourse }: Props) => {
 
             const tds = row.filter((col, ind) => ind !== 0).map((td, ii) => {
                 // don't show the id of row
+                if (ii === 0) return <td key={td}><a href={URL({tcls: row[3] as string, tcour: row[2] as string, type: row[6] as string})} target="_blank" rel="noopener noreferrer">{td}</a></td>
                 return <td key={ii}>{td}</td>;
             });
             return (
                 <tr
+                    className={course.has(row[0] as number) ? "selected" : ""}
                     key={i}
-                    onClick={() => {
-                        setCourse(new Set([...course, row[0] as number]));
+                    onClick={(el) => {
+                        const target = el.target as HTMLTableRowElement
+                        if (target.tagName === 'A') return;
+                        if (course.has(row[0] as number)) {
+                            target.parentElement!.className = ""
+                            const s = course;
+                            s.delete(row[0] as number)
+                            setCourse(s)
+                        } else {
+                            setCourse(new Set([...course, row[0] as number]));
+                            target.parentElement!.className = "selected"
+                        }
                     }}
                 >
                     {tds}
@@ -60,7 +87,7 @@ const QueryResult = ({ columns, data, course, setCourse }: Props) => {
             "科目名稱",
             "科目代號",
             // '班級名稱',
-            // '班級代號',
+            '班級代號',
             "任課教師",
             "上課日期／節次",
             "年級",

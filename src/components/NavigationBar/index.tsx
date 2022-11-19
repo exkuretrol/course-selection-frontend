@@ -18,8 +18,6 @@ const NavigationBar = () => {
                         <div className="relative items-center ml-auto hidden md:flex">
                             <nav className="text-sm text-slate-700 leading-6 font-semibold">
                                 <ul className="flex space-x-6">
-                                    <NavItem name="查詢記錄" href="/records" />
-                                    <NavItem name="導入" href="/import" />
                                     <NavItem name="關於" href="/about" />
                                 </ul>
                             </nav>

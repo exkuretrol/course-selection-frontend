@@ -7,6 +7,7 @@ type Props = {
 
 const NerResult = ({ sentence, result }: Props) => {
     const tags = result;
+    if (tags === undefined) return <></>;
     const sen = sentence;
     const sen_arr = Array.from(sen);
 
@@ -25,8 +26,11 @@ const NerResult = ({ sentence, result }: Props) => {
         new_arr = new_arr.concat(post);
     }
 
+    let tail = Array(sen_arr.length - tags[tags.length - 1].idx[1]).fill(false);
+    new_arr = new_arr.concat(tail);
+
     let counter = -1;
-    new_arr = new_arr.filter((el) => el !== undefined);
+
     let tags_result = new_arr.map((el, i) => {
         if (el) {
             counter = counter + 1;
@@ -37,6 +41,8 @@ const NerResult = ({ sentence, result }: Props) => {
                     tag={tags[counter].tag}
                 />
             );
+        } else if (el === undefined) {
+            return null;
         } else return <span key={i}>{sen_arr[i]}</span>;
     });
 

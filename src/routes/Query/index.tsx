@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import NerResult from "../../components/NerResult";
 import QueryResult from "../../components/QueryResult";
 import ReactSwitch from "react-switch";
 import RecordBtn from "../../components/Recorder";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 type NerResultType = [{ word: string; tag: string; idx: number[] }];
 type JsonTableType = {
-    columns: string[],
-    data: [(string | number)[]],
-    index: number[],
+    columns: string[];
+    data: [(string | number)[]];
+    index: number[];
+};
+type TableType = {
+    columns: string[];
+    data: string[][];
+    index: number[];
 };
 
 const Query = () => {
-    const [checked, setCheck] = useState<boolean>(true);
+    const location = useLocation();
+    const CirriculumTable: TableType = location.state! as TableType;
+    const [checked, setCheck] = useState<boolean>(false);
     const [nerData, setNerData] = useState<NerResultType | null>(null);
     const [sentence, setSentence] = useState<string>("");
     const [jsonTable, setJsonTable] = useState<JsonTableType>({
@@ -49,7 +56,12 @@ const Query = () => {
 
     const navigate = useNavigate();
     const toExport = () => {
-        navigate("/export", { state: { course: course } });
+        navigate("/export", {
+            state: {
+                course: course,
+                table: CirriculumTable,
+            },
+        });
     };
 
     return (
@@ -73,6 +85,7 @@ const Query = () => {
                     </div> */}
                 <RecordBtn
                     setNerData={setNerData}
+                    sentence={sentence}
                     setSentence={setSentence}
                     setJsonTable={setJsonTable}
                 />
@@ -80,12 +93,13 @@ const Query = () => {
                 <div></div>
                 <div className="relative w-96 h-full">
                     <div className="text-slate-700 text-xl tracking-wider leading-8 bg-gray-50 mt-16 px-8 py-4 rounded-full ring-1 ring-slate-500/10">
-                        {checked && (nerData !== null) ? 
-                        (
+                        {checked && nerData !== null ? (
                             <NerResult sentence={sentence} result={nerData} />
-                        )
-                         : (
-                            sentence
+                        ) : (
+                            <EditSentence
+                                sentence={sentence}
+                                setSentence={setSentence}
+                            />
                         )}
                     </div>
                 </div>
@@ -133,6 +147,46 @@ const Query = () => {
                     setCourse={setCourse}
                 />
             </div>
+        </>
+    );
+};
+
+type EditSentenceProps = {
+    sentence: string;
+    setSentence: React.Dispatch<React.SetStateAction<string>>;
+};
+const EditSentence = ({ sentence, setSentence }: EditSentenceProps) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const removeReadOnly = () => {
+        const target = inputRef.current as HTMLInputElement
+        target.readOnly = false;
+    };
+
+    const onInput = (e: React.FormEvent<HTMLInputElement>) => {
+        const target = e.target as HTMLInputElement;
+        setSentence(target.value);
+    };
+
+    const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        const target = e.target as HTMLInputElement;
+        target.readOnly = true;
+    }
+
+    return (
+        <>
+        <div className="flex flex-col">
+
+            <input
+                className="bg-gray-50"
+                ref={inputRef}
+                type="text"
+                value={sentence}
+                readOnly
+                onInput={(e) => onInput(e)}
+                onBlur={(e) => onBlur(e)}
+            />
+            <button onClick={removeReadOnly} className="blue-button">編輯測資</button>
+        </div>
         </>
     );
 };

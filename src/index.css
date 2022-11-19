@@ -4,7 +4,7 @@
 
 @layer components {
     table.query-result-table {
-        @apply table-auto;
+        @apply table-auto duration-[3s] ease-linear;
     }
 
     table.query-result-table thead {
@@ -27,7 +27,32 @@
         @apply py-3 px-6;
     }
 
+    table.query-result-table .selected {
+        @apply bg-slate-700 text-slate-100 transition-all;
+    }
+
+    table.query-result-table .selected td {
+        @apply text-inherit;
+    }
+
     .blue-button {
         @apply px-4 py-2 rounded-full bg-sky-200 text-sky-500 leading-5 tracking-wider hover:bg-sky-300 hover:text-sky-600 transition-all duration-150 ease-in-out hover:scale-125;
+    }
+
+    .blue-button:disabled {
+        @apply bg-slate-300 transition-none hover:transform-none text-slate-500 hover:text-slate-500;
+    }
+
+    /* .course-table {
+        @apply ;
+    } */
+
+    .course-table td {
+        @apply w-20;
+    }
+
+    .course-table .subject {
+        writing-mode: vertical-rl;
+        @apply align-top;
     }
 }

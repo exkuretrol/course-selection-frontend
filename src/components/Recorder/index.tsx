@@ -1,66 +1,67 @@
 import React from "react";
+import { useEffect } from "react";
 import { FaMicrophone } from "react-icons/fa";
 import { useReactMediaRecorder } from "react-media-recorder";
 
 type NerResultType = [{ word: string; tag: string; idx: number[] }];
 type JsonTableType = {
-    columns: string[],
-    data: [(string | number)[]],
-    index: number[],
+    columns: string[];
+    data: [(string | number)[]];
+    index: number[];
 };
 
 type Props = {
-    setNerData: React.Dispatch<React.SetStateAction<NerResultType | null>>,
-    setSentence: React.Dispatch<React.SetStateAction<string>>,
-    setJsonTable: React.Dispatch<React.SetStateAction<JsonTableType>>
-}
+    setNerData: React.Dispatch<React.SetStateAction<NerResultType | null>>;
+    sentence: string;
+    setSentence: React.Dispatch<React.SetStateAction<string>>;
+    setJsonTable: React.Dispatch<React.SetStateAction<JsonTableType>>;
+};
 
-const RecordBtn = ({
-    setNerData,
-    setSentence,
-    setJsonTable
-}: Props) => {
-    const { status, startRecording, stopRecording } =
-        useReactMediaRecorder({
-            audio: true,
-            onStop: (blobUrl, blob) => uploadSoundData(blob),
-            askPermissionOnMount: true,
-        });
+const RecordBtn = ({ setNerData, setSentence, sentence, setJsonTable }: Props) => {
+    const { status, startRecording, stopRecording } = useReactMediaRecorder({
+        audio: true,
+        onStop: (blobUrl, blob) => uploadSoundData(blob),
+        askPermissionOnMount: true,
+    });
+    useEffect(() => {
+        const text = JSON.stringify({ "multiple": false, "text": sentence})
+        NER(text);
+    }, [sentence])
 
     const uploadSoundData = async (blob: Blob) => {
         const formData = new FormData()
         formData.append("audio_data", blob, new Date().getTime() + ".ogg");
 
-        // await fetch('http://localhost:4000/api/recognize', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(res => res.json())
-        //     .then(async data => {
-        //         const recognized_text = JSON.parse(data).text
-        //         console.log('辨識完成的文字：', recognized_text);
-        //         setSentence(recognized_text)
-        //         const text = JSON.stringify({ "multiple": false, "text": recognized_text })
-        //         console.log('送給 NER 的 json', text)
-        //         return text
-        //     })
-        //     .then(text => {
-        //         // if (text['text'] !== '你好')
-        //         //     NER(text)
-        //         // const sen = "資工系禮拜一的選修課";
-        //         const sen = "資工系李玉璽老師的選修課";
-        //         const text1 = JSON.stringify({ "multiple": false, "text": sen})
-        //         setSentence(sen)
-        //         NER(text1)
-        //     })
-        //     .catch(e => console.log(e));
-        // const sen = "資工系禮拜一的選修課";
-        const sen = "資工系李玉璽老師的選修課";
-        const text1 = JSON.stringify({ multiple: false, text: sen });
-        setSentence(sen);
-        NER(text1);
+        await fetch('http://localhost:4000/api/recognize', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data)
+                const recognized_text = JSON.parse(data).text
+                console.log('辨識完成的文字：', recognized_text);
+                setSentence(recognized_text)
+                // const text = JSON.stringify({ "multiple": false, "text": recognized_text})
+                // console.log('送給 NER 的 json', text)
+                // NER(text)
+                // return text
+            })
+            // .then(text => {
+            //     // if (text['text'] !== '你好')
+            //     //     NER(text)
+            //     // const sen = "資工系禮拜一的選修課";
+            //     // const sen = "資工系李玉璽老師的選修課";
+            //     // setSentence(sen)
+            // })
+            .catch(e => console.log(e));
+        // // const sen = "何組鳳老師的課";
+        // const sen = "都防系的選修課";
+        // // const sen = "統資系大三的課"
+        // const text1 = JSON.stringify({ multiple: false, text: sen });
+        // setSentence(sen);
+        // NER(text1);
     };
-
 
     const NER = async (text: string) => {
         await fetch("http://localhost:5000/api/ner", {
@@ -68,18 +69,21 @@ const RecordBtn = ({
             headers: { "Content-Type": "application/json" },
             body: text,
         })
-            .then((res) => res.json())
+            .then(async (res) => {
+                if (res.ok) return res.json();
+                else console.log(await res.json());
+                throw Error("SQL語法錯誤");
+            })
             .then((data2) => {
                 const ner_result = data2["result"][0];
-                const query_json_table = JSON.parse(data2["tbl"] || null);
-
+                const query_json_table = data2["tbl"];
                 setNerData(ner_result);
                 setJsonTable(query_json_table);
                 console.log(ner_result);
                 console.log(query_json_table);
             })
             .catch((error) => {
-                console.error("Error:", error);
+                console.error(error);
             });
     };
 
