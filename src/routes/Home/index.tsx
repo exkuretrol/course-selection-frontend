@@ -5,7 +5,7 @@ function Home() {
         <>
             <header className="py-4 sm:py-6 md:py-8 text-sky-900 leading-10">
                 <span className="text-2xl sm:text-3xl md:text-4xl box-decoration-clone bg-gradient-to-br from-indigo-600 to-pink-500 px-2 text-white tracking-widest">
-                    銘傳大學
+                    銘傳大學A
                     <br />
                     語音選課系統
                 </span>
