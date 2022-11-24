@@ -21,7 +21,7 @@ type TableType = {
 const Query = () => {
     const location = useLocation();
     const CirriculumTable: TableType = location.state! as TableType;
-    const [checked, setCheck] = useState<boolean>(false);
+    const [checked, setCheck] = useState<boolean>(true);
     const [nerData, setNerData] = useState<NerResultType | null>(null);
     const [sentence, setSentence] = useState<string>("");
     const [jsonTable, setJsonTable] = useState<JsonTableType>({
@@ -41,14 +41,14 @@ const Query = () => {
     // const nextStep = () => setStep(step + 1);
     // const prevStep = ()=> setStep(step - 1);
 
-    // const tips = [
-    //     "若要查詢老師的課表，只需說出「某某 (教授/老師)的課表」即可。",
-    //     "例如：我想找星期三下午桃園校區的選修課",
-    //     "某某老師的微積分。",
-    //     "尋找020304節資工系的必修",
-    //     "畢業班的課程",
-    //     "一句話中所提到的課程和老師的次數都只能一次。",
-    //];
+    const tips = [
+        "若要查詢老師的課表，只需說出「某某 (教授/老師)的課表」即可。",
+        "例如：我想找星期三下午桃園校區的選修課",
+        "某某老師的微積分。",
+        "尋找020304節資工系的必修",
+        "畢業班的課程",
+        "一句話中所提到的課程和老師的次數都只能一次。",
+    ];
 
     useEffect(() => {
         console.log("加選的課程: ", course);

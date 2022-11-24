@@ -29,38 +29,24 @@ const RecordBtn = ({ setNerData, setSentence, sentence, setJsonTable }: Props) =
     }, [sentence])
 
     const uploadSoundData = async (blob: Blob) => {
-        const formData = new FormData()
-        formData.append("audio_data", blob, new Date().getTime() + ".ogg");
-
-        await fetch('http://localhost:4000/api/recognize', {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                // console.log(data)
-                const recognized_text = JSON.parse(data).text
-                console.log('辨識完成的文字：', recognized_text);
-                setSentence(recognized_text)
-                // const text = JSON.stringify({ "multiple": false, "text": recognized_text})
-                // console.log('送給 NER 的 json', text)
-                // NER(text)
-                // return text
-            })
-            // .then(text => {
-            //     // if (text['text'] !== '你好')
-            //     //     NER(text)
-            //     // const sen = "資工系禮拜一的選修課";
-            //     // const sen = "資工系李玉璽老師的選修課";
-            //     // setSentence(sen)
-            // })
-            .catch(e => console.log(e));
-        // // const sen = "何組鳳老師的課";
+        // const formData = new FormData()
+        // formData.append("audio_data", blob, new Date().getTime() + ".ogg");
+        // await fetch('http://localhost:4000/api/recognize', {
+        //     method: 'POST',
+        //     body: formData
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         const recognized_text = JSON.parse(data).text
+        //         console.log('辨識完成的文字：', recognized_text);
+        //         setSentence(recognized_text)
+        //     })
+        //     .catch(e => console.log(e));
+        // const sen = "何組鳳老師的課";
         // const sen = "都防系的選修課";
-        // // const sen = "統資系大三的課"
-        // const text1 = JSON.stringify({ multiple: false, text: sen });
-        // setSentence(sen);
-        // NER(text1);
+        // const sen = "統資系大三的課"
+        const sen = "日文"
+        setSentence(sen);
     };
 
     const NER = async (text: string) => {
