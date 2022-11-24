@@ -1,0 +1,48 @@
+name: dev-build-mac
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'src/**'
+
+jobs:
+  macos-latest:
+    # see more environment https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    strategy:
+      matrix:
+        node: [16, latest]
+
+    runs-on: macos-12
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+        with: 
+          submodules: recursive
+
+      - name: use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with: 
+          node-version: ${{ matrix.node }}
+
+      - name: install dependencies
+        run: npm install
+
+      - name: build react app
+        run: npm run build
+
+      - name: deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Deploy from Github Actions'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+
+
+
+    
