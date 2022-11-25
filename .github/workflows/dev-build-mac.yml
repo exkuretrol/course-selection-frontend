@@ -30,7 +30,7 @@ jobs:
         run: npm install
 
       - name: build react app
-        run: npm run build
+        run: CI= npm run build
 
       - name: deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
