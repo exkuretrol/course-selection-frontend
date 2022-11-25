@@ -3,7 +3,7 @@ name: dev-build-mac
 on:
   push:
     branches:
-      - dev
+      - main
     paths:
       - 'src/**'
 
