@@ -12,7 +12,7 @@ jobs:
     # see more environment https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
     strategy:
       matrix:
-        node: [16, latest]
+        node: [latest]
 
     runs-on: macos-12
     steps:
