@@ -26,7 +26,7 @@ const RecordBtn = ({ setNerData, setSentence, sentence, setJsonTable }: Props) =
     useEffect(() => {
         const text = JSON.stringify({ "multiple": false, "text": sentence})
         NER(text);
-    }, [sentence])
+    }, [sentence]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const uploadSoundData = async (blob: Blob) => {
         // const formData = new FormData()

@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
 import Cirrculum from "../../components/Curriculum";
 
 type TableType = {
@@ -26,7 +25,7 @@ const Export = () => {
         return [];
     }, []);
 
-    const tblRef = useRef<string[][]>();
+    // const tblRef = useRef<string[][]>();
 
     fetch("http://localhost:5000/api/query", {
         method: "POST",
