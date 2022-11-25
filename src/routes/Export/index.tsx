@@ -62,7 +62,7 @@ const Export = () => {
                     course[15],
                     course[13],
                     `${course[16]}`,
-                    course[15] == "必修" ? "Y" : "N",
+                    course[15] === "必修" ? "Y" : "N",
                     `${
                         (Day.get(course[11].substring(0, 1)) as number) + 1
                     }`,
