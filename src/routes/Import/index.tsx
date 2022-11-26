@@ -33,9 +33,10 @@ const Import = () => {
     return (
         <>
             <h1 className="text-3xl font-medium mb-4">匯入課表頁面</h1>
+            <p>在此頁面你可以選擇上傳您的課表，或是選擇略過此步驟。</p>
             <ul>
                 <li>
-                    <h3>第一步: 先將您的個人課表儲存成 HTML 檔案格式。</h3>
+                    <h3>第一步：先將您的個人課表儲存成 HTML 檔案格式。</h3>
                     <HoverVideoPlayer
                         videoSrc={
                             process.env.PUBLIC_URL + "/images/save-as-html.mp4"
@@ -68,18 +69,18 @@ const Import = () => {
                 </li>
                 <li>
                     <h3>
-                        第二步:
-                        點擊下方的「打開課表檔案」按鈕，選擇您儲存好並符合格式的課表。
+                        第二步：點擊下方的「打開課表檔案」按鈕，選擇您儲存好並符合格式的課表。
                     </h3>
                     <HoverVideoPlayer
                         videoSrc={
-                            process.env.PUBLIC_URL + "/images/save-as-html.mp4"
+                            process.env.PUBLIC_URL +
+                            "/images/upload-cirriculum.mp4"
                         }
                         pausedOverlay={
                             <img
                                 src={
                                     process.env.PUBLIC_URL +
-                                    "/images/save-as-html.png"
+                                    "/images/upload-cirriculum.mp4"
                                 }
                                 alt=""
                                 style={{
@@ -97,7 +98,7 @@ const Import = () => {
                     />
                 </li>
                 <li>
-                    <h3>第三步: 前往選課。</h3>
+                    <h3>第三步：前往選課。</h3>
                 </li>
             </ul>
             <FileInput table={table} setTable={setTable} />
