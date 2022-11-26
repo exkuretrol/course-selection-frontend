@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Cirrculum from "../../components/Curriculum";
+import HoverVideoPlayer from "react-hover-video-player";
 
 type TableType = {
     columns: string[];
@@ -26,30 +27,87 @@ const Import = () => {
     }, []);
 
     useEffect(() => {
-        ReactTooltip.rebuild()
-    }, [tooltips])
+        ReactTooltip.rebuild();
+    }, [tooltips]);
 
     return (
         <>
-            <h1>Import</h1>
+            <h1 className="text-3xl font-medium mb-4">匯入課表頁面</h1>
             <ul>
                 <li>
-                    第一步: 先將您的個人課表儲存成CSV或HTML的檔案格式。
-                    <br />
-                    儲存方法: 到您的學生資訊系統 點擊「選課」
-                    選擇「選課期間個人課程查詢」 在您的課表上方會有這個選擇方塊
-                    將最右邊欄位中的Pdf換成Csv或Html格式 最後按下就能完成儲存。
+                    <h3>第一步: 先將您的個人課表儲存成 HTML 檔案格式。</h3>
+                    <HoverVideoPlayer
+                        videoSrc={
+                            process.env.PUBLIC_URL + "/images/save-as-html.mp4"
+                        }
+                        pausedOverlay={
+                            <img
+                                src={
+                                    process.env.PUBLIC_URL +
+                                    "/images/save-as-html.png"
+                                }
+                                alt=""
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                }}
+                            />
+                        }
+                        loadingOverlay={
+                            <div className="loading-overlay">
+                                <div className="loading-spinner" />
+                            </div>
+                        }
+                    />
+
+                    <h3>儲存方法</h3>
+                    <p>
+                        進入學生資訊系統後，選擇「上課課程表」進入個人課表頁面。接著在有著清單課表的頁面，點擊「右鍵」→「另存新檔」。
+                    </p>
                 </li>
                 <li>
-                    第二步:
-                    點擊下方的「打開課表檔案」按鈕，選擇您儲存好並符合格式的課表。
+                    <h3>
+                        第二步:
+                        點擊下方的「打開課表檔案」按鈕，選擇您儲存好並符合格式的課表。
+                    </h3>
+                    <HoverVideoPlayer
+                        videoSrc={
+                            process.env.PUBLIC_URL + "/images/save-as-html.mp4"
+                        }
+                        pausedOverlay={
+                            <img
+                                src={
+                                    process.env.PUBLIC_URL +
+                                    "/images/save-as-html.png"
+                                }
+                                alt=""
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                }}
+                            />
+                        }
+                        loadingOverlay={
+                            <div className="loading-overlay">
+                                <div className="loading-spinner" />
+                            </div>
+                        }
+                    />
                 </li>
-                <li>第三步: 前往選課。</li>
+                <li>
+                    <h3>第三步: 前往選課。</h3>
+                </li>
             </ul>
             <FileInput table={table} setTable={setTable} />
             {table !== undefined ? (
                 <>
-                    <Cirrculum table={table.data} addTable={undefined} tooltips={tooltips}/>
+                    <Cirrculum
+                        table={table.data}
+                        addTable={undefined}
+                        tooltips={tooltips}
+                    />
                     <button className="blue-button" onClick={toQuery}>
                         下一步
                     </button>
@@ -102,7 +160,13 @@ const FileInput = ({ table, setTable }: Props) => {
 
     return (
         <div>
-            <input type="file" name="file" id="input_file" accept=".html, .htm" onChange={handleChange} />
+            <input
+                type="file"
+                name="file"
+                id="input_file"
+                accept=".html, .htm"
+                onChange={handleChange}
+            />
             {isFilePicked ? (
                 <>
                     <ul>

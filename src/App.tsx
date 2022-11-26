@@ -11,7 +11,7 @@ function App() {
     return (
         <>
             <NavigationBar />
-            <div className="min-h-screen h-auto max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="min-h-screen h-auto max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
                 <Outlet />
             </div>
             <Footer />
