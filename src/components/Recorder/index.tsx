@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { FaMicrophone } from "react-icons/fa";
-import { useReactMediaRecorder } from "react-media-recorder";
+import { useReactMediaRecorder } from "react-media-recorder-2";
+
 
 type NerResultType = [{ word: string; tag: string; idx: number[] }];
 type JsonTableType = {
@@ -29,24 +30,24 @@ const RecordBtn = ({ setNerData, setSentence, sentence, setJsonTable }: Props) =
     }, [sentence]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const uploadSoundData = async (blob: Blob) => {
-        // const formData = new FormData()
-        // formData.append("audio_data", blob, new Date().getTime() + ".ogg");
-        // await fetch('http://localhost:4000/api/recognize', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         const recognized_text = JSON.parse(data).text
-        //         console.log('辨識完成的文字：', recognized_text);
-        //         setSentence(recognized_text)
-        //     })
-        //     .catch(e => console.log(e));
+        const formData = new FormData()
+        formData.append("audio_data", blob, new Date().getTime() + ".ogg");
+        await fetch('http://localhost:3001/api/recognize', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                const recognized_text = JSON.parse(data).text
+                console.log('辨識完成的文字：', recognized_text);
+                setSentence(recognized_text)
+            })
+            .catch(e => console.log(e));
         // const sen = "何組鳳老師的課";
         // const sen = "都防系的選修課";
-        // const sen = "統資系大三的課"
-        const sen = "日文"
-        setSentence(sen);
+        // const sen = "統資系大三的必修課";
+        // const sen = "日文"
+        // setSentence(sen);
     };
 
     const NER = async (text: string) => {
