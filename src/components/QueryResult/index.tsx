@@ -80,13 +80,15 @@ const QueryResult = ({ columns, data, course, setCourse }: Props) => {
                         const cur = parseInt(b);
 
                         return (
-                            <ProgressBar
-                                completed={cur}
-                                maxCompleted={lim}
-                                customLabel={cur + " / " + lim}
-                                labelAlignment="left"
-                                className="whitespace-nowrap"
-                            />
+                            <td className="grid place-item-center">
+                                <ProgressBar
+                                    completed={cur}
+                                    maxCompleted={lim}
+                                    customLabel={cur + " / " + lim}
+                                    labelAlignment="left"
+                                    className="whitespace-nowrap"
+                                />
+                            </td>
                         );
                     }
                     return <td key={ii}>{td}</td>;
