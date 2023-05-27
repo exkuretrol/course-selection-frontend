@@ -5,6 +5,7 @@
     "type": "module",
     "dependencies": {
         "@google-cloud/speech": "^5.5.0",
+        "@ramonak/react-progress-bar": "^5.0.3",
         "@svgr/webpack": "^6.5.1",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.3.0",
